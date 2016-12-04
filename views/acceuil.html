@@ -1,0 +1,133 @@
+<div class="page-title">
+    <div class="title_left">
+        <h3>Les stations et les bus de {{currentUser.societe.nom}}</h3>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+
+    <div class="col-md-9 col-sm-9 col-xs-9 col-lg-9">
+        <div id="map"></div>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-3 col-lg-3" ng-show="selectedBus" ng-if="selectedBus"
+         ng-hide="selectedBus == null">
+        <div class="panel panel-default" id="marker-info">
+            <div class="panel-heading">
+                <h3 style="color: #73879C;">Bus: {{selectedBus.code}}</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>Immatriculation:</td>
+                        <td>{{selectedBus.immatriculation}}</td>
+                    </tr>
+                    <tr>
+                        <td>Matricule du chauffeur:</td>
+                        <td>{{service.codeCh}}</td>
+                    </tr>
+                    <tr>
+                        <td>Matricule du receveur:</td>
+                        <td>{{service.codeConv}}</td>
+                    </tr>
+                    <tr>
+                        <td>Code du centre:</td>
+                        <td>{{service.codeCentre}}</td>
+                    </tr>
+                    <tr>
+                        <td>Code du ligne:</td>
+                        <td>{{service.codeLigne}}</td>
+                    </tr>
+                    <tr>
+                        <td>Voyage:</td>
+                        <td>{{voyage}}</td>
+                    </tr>
+                    <tr>
+                        <td>Distance parcourue:</td>
+                        <td>{{distance}}&nbsp;<p ng-show="distance">Km</p></td>
+                    </tr>
+                    <tr>
+                        <td>Vitesse:</td>
+                        <td>{{selectedBus.vitesse}}&nbsp;<p ng-show="vitesse">Km/s</p></td>
+                    </tr>
+                    <tr>
+                        <td>Nombre de tickets:</td>
+                        <td>{{ticketCount}}</td>
+                    </tr>
+                    <tr>
+                        <td>Nombre d'annulations:</td>
+                        <td>{{cancelledTicketCount}}</td>
+                    </tr>
+                    <tr>
+                        <td>Recette:</td>
+                        <td>{{recipe}}</td>
+                    </tr>
+                    <tr>
+                        <td>Recette d'annulations:</td>
+                        <td>{{negativeRecipe}}</td>
+                    </tr>
+                </table>
+                <!--ul>
+                    <li><label for="date">Date: </label>
+                        <p id="date">{{date}}</p></li>
+                    <li><label class="h5" for="immatriculation">Immatriculation: </label>
+                        <p id="immatriculation">
+                            {{selectedBus.immatriculation}}</p></li>
+                    <li><label class="h5" for="codeCh">Matricule du chauffeur: </label>
+                        <p id="codeCh">{{service.codeCh}}</p></li>
+                    <li><label class="h5" for="codeConv">Matricule du receveur: </label>
+                        <p id="codeConv">{{service.codeConv}}</p></li>
+                    <li><label class="h5" for="codeCentre">Code du centre: </label>
+                        <p id="codeCentre">{{lastTicket.codeCentre}}</p></li>
+                    <li><label class="h5" for="codeLigne">Code du ligne: </label>
+                        <p id="codeLigne">{{lastTicket.codeLigne}}</p></li>
+                    <li><label for="voyage">Voyage: </label>
+                        <p id="voyage">{{voyage}}</p></li>
+                    <li><label for="distance">Distance parcourue: </label>
+                        <p id="distance">{{distance}}&nbsp;Km</p></li>
+                    <li><label for="vitesse">Vitesse: </label>
+                        <p id="vitesse">{{selectedBus.vitesse}}&nbsp;Km/s</p></li>
+                    <li><label for="nbrTickets">Nombre de tickets: </label>
+                        <p id="nbrTickets">{{nbrTickets}}</p></li>
+                    <li><label for="nbrAnnulations">Nombre d'annulations: </label>
+                        <p id="nbrAnnulations">
+                            {{nbrAnnulations}}</p></li>
+                    <li><label for="recipe">recette: </label>
+                        <p id="recipe">{{recipe}}</p></li>
+                </ul-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- footer content -->
+<!--footer>
+    <div class="">
+        Copyright © Bus Software 2016
+    </div>
+    <div class="clearfix"></div>
+</footer-->
+<!-- /footer content -->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" id="addStation">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">Ajouter une station</h4>
+            </div>
+            <div class="modal-body">
+                <form name="frm" id="frm">
+                    <input type="text" ng-model="station.nom" class="form-control" autofocus required
+                           placeholder="Nom de la station"/><br>
+                    <button class="btn btn-success" ng-click="add(station)" data-dismiss="modal"
+                            ng-disabled="frm.$invalid">Valider
+                    </button>
+                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

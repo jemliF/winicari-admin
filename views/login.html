@@ -1,0 +1,48 @@
+<div class="">
+    <div id="wrapper">
+        <div id="login" class="animate form">
+            <section class="login_content">
+                <form>
+                    <h1>S'authentifier</h1>
+                    <div>
+                        <input type="email" class="form-control" placeholder="Email" autofocus required
+                               ng-model="user.email"/>
+                    </div>
+                    <div>
+                        <input type="password" class="form-control" placeholder="Mot de passe" required
+                               ng-model="user.email"/>
+                    </div>
+                    <div>
+                        <button class="btn btn-default submit" ng-click="login(user)">Se connecter</button>
+                        <!--a class="reset_pass" href="#">Lost your password?</a-->
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+                <!-- form -->
+            </section>
+            <!-- content -->
+        </div>
+        <div id="register" class="animate form">
+            <section class="login_content">
+                <form>
+                    <h1>Create Account</h1>
+                    <div>
+                        <input type="text" class="form-control" placeholder="Username" required=""/>
+                    </div>
+                    <div>
+                        <input type="email" class="form-control" placeholder="Email" required=""/>
+                    </div>
+                    <div>
+                        <input type="password" class="form-control" placeholder="Password" required=""/>
+                    </div>
+                    <div>
+                        <a class="btn btn-default submit" href="index.html">Submit</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+                <!-- form -->
+            </section>
+            <!-- content -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Bus Software | Admin Dashboard</title>
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="vendor/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="vendor/fonts/css/font-awesome.min.css" rel="stylesheet">
+    <link href="vendor/css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom styling plus plugins -->
+    <link href="vendor/css/custom.css" rel="stylesheet">
+    <link href="vendor/css/icheck/flat/green.css" rel="stylesheet">
+
+    <!-- data table -->
+    <!-- Custom styling plus plugins -->
+    <link href="vendor/css/custom.css" rel="stylesheet">
+    <link href="vendor/css/icheck/flat/green.css" rel="stylesheet">
+    <link href="vendor/css/datatables/tools/css/dataTables.tableTools.css" rel="stylesheet">
+
+    <script src="vendor/js/jquery.min.js"></script>
+    <script src="vendor/js/notify/pnotify.core.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="../assets/js/ie8-responsive-file-warning.js"></script>
+    <![endif]-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script type="application/javascript" src="bower_components/angular/angular.js"></script>
+    <script type="application/javascript" src="bower_components/angular-route/angular-route.js"></script>
+    <script type="application/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
+    <script type="application/javascript"
+            src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+
+    <script type="application/javascript" src="app.js"></script>
+    <script type="application/javascript" src="routes.js"></script>
+
+    <script type="application/javascript" src="src/services/utilService.js"></script>
+    <script type="application/javascript" src="src/services/adminProvider.js"></script>
+    <script type="application/javascript" src="src/services/societeProvider.js"></script>
+    <script type="application/javascript" src="src/services/stationProvider.js"></script>
+    <script type="application/javascript" src="src/services/appareilProvider.js"></script>
+    <script type="application/javascript" src="src/services/busProvider.js"></script>
+
+    <script type="application/javascript" src="src/controllers/menuController.js"></script>
+    <script type="application/javascript" src="src/controllers/navController.js"></script>
+    <script type="application/javascript" src="src/controllers/appareilsController.js"></script>
+    <script type="application/javascript" src="src/controllers/busController.js"></script>
+    <script type="application/javascript" src="src/controllers/indexController.js"></script>
+    <script type="application/javascript" src="src/controllers/profileController.js"></script>
+    <script type="application/javascript" src="src/controllers/stationsController.js"></script>
+    <script type="application/javascript" src="src/controllers/usersController.js"></script>
+    <script type="application/javascript" src="src/controllers/loginController.js"></script>
+
+</head>
+<style>
+    #map {
+        height: 1000px;
+        width: 100%;
+        border-width: 2px;
+        display: block;
+    }
+</style>
+<body class="nav-md" ng-app="adminapp">
+<div class="container body">
+
+
+    <div class="main_container">
+
+        <div class="col-md-3 left_col" ng-controller="MenuController">
+            <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0;">
+                    <a href="#/" class="site_title"><i class="fa fa-bus"></i>
+                        <span>Bus Software</span>
+                    </a>
+                </div>
+                <div class="clearfix"></div>
+
+                <!-- menu prile quick info -->
+                <div class="profile" style="width: 100%;">
+                    <!--div class="profile_pic">
+                        <img src="vendor/images/img.jpg" alt="..." class="img-circle profile_img">
+                    </div-->
+                    <div class="profile_info" style="width: 100%; align-content: center;">
+                        <span>Bienvenue, </span>
+                        <h2>{{currentUser.nom}}&nbsp;{{currentUser.prenom}}&nbsp;({{currentUser.societe.nom}})</h2>
+                    </div>
+                </div>
+
+                <br/><br><br><br>
+
+                <!-- sidebar menu -->
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+
+                    <div class="menu_section">
+                        <ul class="nav side-menu">
+                            <li><a href="#/"><i class="fa fa-home"></i> Accueil</a>
+                            </li>
+                            <li ng-show="currentUser.role=='admin'"><a href="#/users"><i class="fa fa-users"></i>
+                                Gestion des utilisateurs</a>
+                            </li>
+                            <!--li><a href="#/appareils"><i class="fa fa-desktop"></i> Gestion des appareils</a>
+                            </li-->
+                            <li><a href="#/bus"><i class="fa fa-bus"></i> Gestion des bus</a>
+                            </li>
+                            <li><a href="#/stations"><i class="fa fa-flag"></i> Gestion des stations</a>
+                            </li>
+                            <li><a href="#/profile"><i class="fa fa-user"></i> Mon profile</a>
+                            </li>
+                            <li><a href="/adminsite/login/index"><i class="fa fa-sign-out"></i> Se déconnecter</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <!-- /sidebar menu -->
+            </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav" ng-controller="NavController">
+
+            <div class="nav_menu">
+                <nav class="" role="navigation">
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="">
+                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
+                               aria-expanded="false">
+                                {{currentUser.nom}}&nbsp;{{currentUser.prenom}}&nbsp;({{currentUser.societe.nom}})
+                                <span class=" fa fa-angle-down"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
+                                <li><a href="#/profile"><i class="fa fa-user pull-right"></i> Mon profile</a>
+                                </li>
+                                <li><a href="/adminsite/login/index"><i class="fa fa-sign-out pull-right"></i> Se
+                                    déconnecter</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="" ng-view style="min-height: 600px;">
+            </div>
+            <footer>
+                <div class="">
+                    Copyright © Bus Software 2016
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+        </div>
+
+        <!-- /page content -->
+    </div>
+
+</div>
+<script src="vendor/js/bootstrap.min.js"></script>
+<!-- chart js -->
+<script src="vendor/js/chartjs/chart.min.js"></script>
+<script src="vendor/js/nicescroll/jquery.nicescroll.min.js"></script>
+<!-- icheck -->
+<script src="vendor/js/icheck/icheck.min.js"></script>
+
+<script src="vendor/js/custom.js"></script>
+<script src="bower_components/underscore/underscore.js"></script>
+</body>
+
+</html>

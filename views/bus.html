@@ -1,0 +1,228 @@
+<div class="page-title">
+    <div class="title_left">
+        <h3>Les bus de {{currentUser.societe.nom}}</h3>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div>
+            <button class="btn btn-success pull-right" data-toggle="modal" data-target="#newModal">Ajouter un bus
+            </button>
+            <div class="input-group">
+                <input type="text" class="form-control" style="border-radius: 10px;" placeholder="Recherche"
+                       ng-model="search">
+            </div>
+        </div>
+        <table id="buss" class="table table-striped responsive-utilities jambo_table table-responsive">
+            <thead>
+            <tr class="headings">
+                <th>Code</th>
+                <th>Immatriculation</th>
+                <th>Vitesse</th>
+                <th>Vitesse maximale</th>
+                <th>Nombre de place maximal</th>
+                <th>Position</th>
+                <th style="width: auto;"></th>
+                <th style="width: auto;"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr class="even pointer" ng-repeat="bus in buss | filter:search">
+                <td>{{bus.code}}</td>
+                <td>{{bus.immatriculation}}</td>
+                <td>{{bus.vitesse}}</td>
+                <td>{{bus.vitesseMax}}</td>
+                <td>{{bus.nbrPlacesMax}}</td>
+                <td>({{bus.localisation.x}} - {{bus.localisation.y}})</td>
+                <td>
+                    <button class="btn btn-primary" data-toggle="modal" ng-click="selectBus(bus)"
+                            data-target="#updateModal">Modifier
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-danger" data-toggle="modal" ng-click="selectBus(bus)"
+                            data-target="#deleteModal">Supprimer
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="updateModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myUpdateModalLabel">Modifier bus</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger">Les champs avec (*) sont obligatoires</p>
+                <form class="form-horizontal form-label-left" name="frm">
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">Code <span
+                                class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="code" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                   autofocus ng-model="oldBus.code"
+                                   data-validate-words="2" name="code" placeholder="Code"
+                                   required type="text">
+                            <span class="fa fa-desktop form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="mat">Immatriculation <span
+                                class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="mat" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                   autofocus ng-model="oldBus.immatriculation"
+                                   data-validate-words="2" name="immatriculation" placeholder="Immatriculation"
+                                   required type="text">
+                            <span class="fa fa-desktop form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="vimax">Vitesse maximale <span
+                                class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="vimax" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                   autofocus ng-model="oldBus.vitesseMax"
+                                   data-validate-words="2" name="code" placeholder="Vitesse maximale"
+                                   required type="number" min="0" max="200">
+                            <span class="fa fa-desktop form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nbplmax">Nombre de places
+                            maximal <span
+                                    class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="nbplmax" class="form-control col-md-7 col-xs-12"
+                                   data-validate-length-range="6"
+                                   autofocus ng-model="oldBus.nbrPlacesMax"
+                                   data-validate-words="2" name="code" placeholder="Nombre de places maximal"
+                                   required type="number" min="0" max="300">
+                            <span class="fa fa-desktop form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                            <button type="reset" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                            <button id="send" type="submit" class="btn btn-success" ng-click="update(oldBus)"
+                                    ng-disabled="frm.$invalid"
+                                    data-dismiss="modal">Submit
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="newModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Ajouter un bus</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger">Les champs avec (*) sont obligatoires</p>
+                <form class="form-horizontal form-label-left" name="frm2">
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newcode">Code <span
+                                class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="newcode" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                   autofocus ng-model="bus.code"
+                                   data-validate-words="2" name="code" placeholder="Code"
+                                   required type="text">
+                            <span class="fa fa-desktop form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newmat">Immatriculation <span
+                                class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="newmat" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                   autofocus ng-model="bus.immatriculation"
+                                   data-validate-words="2" name="immatriculation" placeholder="Immatriculation"
+                                   required type="text">
+                            <span class="fa fa-desktop form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newvimax">Vitesse maximale <span
+                                class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="newvimax" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                   autofocus ng-model="bus.vitesseMax"
+                                   data-validate-words="2" name="code" placeholder="Vitesse maximale"
+                                   required type="number" min="0" max="200">
+                            <span class="fa fa-desktop form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="newnbplmax">Nombre de places
+                            maximal <span
+                                    class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="newnbplmax" class="form-control col-md-7 col-xs-12"
+                                   data-validate-length-range="6"
+                                   autofocus ng-model="bus.nbrPlacesMax"
+                                   data-validate-words="2" name="code" placeholder="Nombre de places maximal"
+                                   required type="number" min="0" max="300">
+                            <span class="fa fa-desktop form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                            <button type="reset" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                            <button id="newsend" type="submit" class="btn btn-success" ng-click="save(bus)"
+                                    ng-disabled="frm2.$invalid" data-dismiss="modal">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" id="deleteModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">Supprimer bus</h4>
+            </div>
+            <div class="modal-body">
+                <div align="center">
+                    <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" ng-click="delete(selectedBus)" data-dismiss="modal">Confirmer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

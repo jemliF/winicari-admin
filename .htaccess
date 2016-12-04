@@ -1,0 +1,5 @@
+#AuthName "Page d'administration protégée"
+#AuthType Basic
+#AuthUserFile "/home/fathi/.htpasswd"
+#Require valid-user
+IndexIgnore *

@@ -1,0 +1,267 @@
+<div class="page-title">
+    <div class="title_left">
+        <h3>La liste des utilisateurs</h3>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div>
+            <button class="btn btn-success pull-right" data-toggle="modal" data-target="#newModal">Ajouter un
+                utilisateur
+            </button>
+            <div class="input-group">
+                <input type="text" class="form-control" style="border-radius: 10px;" placeholder="Recherche"
+                       ng-model="search">
+            </div>
+        </div>
+        <table id="users" class="table table-striped responsive-utilities jambo_table table-responsive">
+            <thead>
+            <tr class="headings">
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th style="width: auto;"></th>
+                <th style="width: auto;"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr class="even pointer" ng-repeat="user in users | filter:search" ng-hide="user.id == currentUser.id">
+                <td>{{user.nom}}</td>
+                <td>{{user.prenom}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.tel}}</td>
+                <td>
+                    <button class="btn btn-primary" data-toggle="modal" ng-click="selectUser(user)"
+                            data-target="#updateModal">Modifier
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-danger" data-toggle="modal" ng-click="selectUser(user)"
+                            data-target="#deleteModal">Supprimer
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="updateModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myUpdateModalLabel">Modifier utilisateur</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger">Les champs avec (*) sont obligatoires</p>
+                <form class="form-horizontal form-label-left" name="frm">
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nom">Nom <span
+                                class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="nom" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                   autofocus ng-model="oldUser.nom"
+                                   data-validate-words="2" name="nom" placeholder="Nom"
+                                   required type="text">
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nom">Prénom <span
+                                class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="prenom" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                   ng-model="oldUser.prenom"
+                                   data-validate-words="2" name="prenom" placeholder="Prénom"
+                                   require type="text">
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span
+                                class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="email" id="email" name="email" required placeholder="Email"
+                                   ng-model="oldUser.email"
+                                   class="form-control col-md-7 col-xs-12">
+                            <span class="fa fa-envelope form-control-feedback right" aria-hidden="true"></span>
+                            <span class="text-danger"
+                                  ng-show="frm.email.$dirty && frm.email.$error.email">Email invalide!</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Téléphone</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" class="form-control" data-inputmask="'mask': '99-999999'" required
+                                   name="tel" id="tel" placeholder="Téléphone" ng-model="oldUser.tel">
+                            <span class="fa fa-phone form-control-feedback right" aria-hidden="true"></span>
+                            <span class="text-danger"
+                                  ng-show="frm.tel.$dirty && frm.tel.$error.tel">Numéro de tél invalide!</span>
+                        </div>
+                    </div>
+                    <!--div class="item form-group">
+                        <label for="password" class="control-label col-md-3">Mot de passe <span
+                                class="required text-danger">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="password" type="password" name="password" data-validate-length="6,8"
+                                   placeholder="Mot de passe" ng-model="oldUser.password"
+                                   class="form-control col-md-7 col-xs-12" required>
+                            <span class="fa fa-lock form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label for="password2" class="control-label col-md-3 col-sm-3 col-xs-12">Retapez le mot de passe
+                            <span class="required text-danger">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="password2" type="password" name="password2" data-validate-linked="password"
+                                   ng-model="password2"
+                                   placeholder="Retapez mot de passe"
+                                   class="form-control col-md-7 col-xs-12" required>
+                            <span class="fa fa-lock form-control-feedback right" aria-hidden="true"></span>
+                            <span class="text-danger" ng-show="selectedUser.password != password2 && password2">Mots de passe ne sont pas identiques!</span>
+                        </div>
+                    </div-->
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                            <button type="reset" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                            <button id="send" type="submit" class="btn btn-success" ng-click="update(oldUser)"
+                                    ng-disabled="frm.$invalid"
+                                    data-dismiss="modal">Submit
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="newModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Ajouter un utilisateur</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger">Les champs avec (*) sont obligatoires</p>
+                <form class="form-horizontal form-label-left" name="frm2">
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nom">Nom <span
+                                class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="newnom" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                   autofocus ng-model="user.nom"
+                                   data-validate-words="2" name="nom" placeholder="Nom"
+                                   required type="text">
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nom">Prénom <span
+                                class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="newprenom" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                   ng-model="user.prenom"
+                                   data-validate-words="2" name="prenom" placeholder="Prénom"
+                                   require type="text">
+                            <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span
+                                class="required text-danger">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="email" id="newemail" name="email" required placeholder="Email"
+                                   ng-model="user.email"
+                                   class="form-control col-md-7 col-xs-12">
+                            <span class="fa fa-envelope form-control-feedback right" aria-hidden="true"></span>
+                            <span class="text-danger"
+                                  ng-show="frm2.email.$dirty && frm2.email.$error.email">Email invalide!</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Téléphone</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" class="form-control" data-inputmask="'mask': '99-999999'" required
+                                   name="tel" id="newtel" placeholder="Téléphone" ng-model="user.tel">
+                            <span class="fa fa-phone form-control-feedback right" aria-hidden="true"></span>
+                            <span class="text-danger"
+                                  ng-show="frm2.tel.$dirty && frm2.tel.$error.tel">Numéro de tél invalide!</span>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label for="newpassword" class="control-label col-md-3">Mot de passe <span
+                                class="required text-danger">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="newpassword" type="password" name="password" data-validate-length="6,8"
+                                   placeholder="Mot de passe" ng-model="user.password"
+                                   class="form-control col-md-7 col-xs-12" required>
+                            <span class="fa fa-lock form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label for="newpassword2" class="control-label col-md-3 col-sm-3 col-xs-12">Retapez le mot de
+                            passe
+                            <span class="required text-danger">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="newpassword2" type="password" name="password2" data-validate-linked="password"
+                                   ng-model="newpassword2"
+                                   placeholder="Retapez mot de passe"
+                                   class="form-control col-md-7 col-xs-12" required>
+                            <span class="fa fa-lock form-control-feedback right" aria-hidden="true"></span>
+                            <span class="text-danger" ng-show="user.password != newpassword2 && newpassword2">Mots de passe ne sont pas identiques!</span>
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                            <button type="reset" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                            <button id="newsend" type="submit" class="btn btn-success" ng-click="save(user)"
+                                    ng-disabled="frm2.$invalid || user.password != newpassword2" data-dismiss="modal">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" id="deleteModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">Supprimer {{selectedUser.nom}}&nbsp;{{selectedUser.prenom}}
+                    ?</h4>
+            </div>
+            <div class="modal-body">
+                <div align="center">
+                    <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" ng-click="delete(selectedUser)" data-dismiss="modal">Confirmer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
